@@ -35,7 +35,7 @@ public class LightActuator {
         janela.setVisible(true);
     }
 
-    public void handle(Event e) {
+    public void handle(Event e) { //verifica se e uma ordem que o atuador sabe executar 
         if (e instanceof AreaLightingOrderEvent) {
             AreaLightingOrderEvent ordem = (AreaLightingOrderEvent) e;
             luz.setLigada(ordem.isOn());

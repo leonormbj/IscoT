@@ -10,7 +10,7 @@ protected SensorEvent (Areas area, double value) {
     this.value = value; // guarda o valor
 }
 
- //permite ler o valor do sensor a partir do exterior
+//permite ler o valor do sensor a partir do exterior
 public double getValue() { return value;}
 
 @Override 
