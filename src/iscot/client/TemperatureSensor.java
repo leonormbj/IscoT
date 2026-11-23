@@ -1,6 +1,9 @@
 package iscot.client;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.net.Socket;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -15,7 +18,22 @@ public class TemperatureSensor {
         if (args.length != 3) {
             System.err.println("Invalid arguments!");
         } else {
-            // TODO connect to the server
+            int porto;
+
+			try{
+				porto = Integer.parseInt(args[1]);
+			}catch(NumberFormatException e){
+				System.err.println("Porto tem de ser um numero");
+				return;
+			}
+
+			try{
+				Socket socket = new Socket(args[0], porto);
+				System.out.println("Ligado ao servidor " + socket.getRemoteSocketAddress());
+			}catch(IOException e){
+				System.err.println("nao foi possivel ligar ao servidor" + e.getMessage());
+				return;
+			}
             // TODO register with the server
             Areas area = Areas.valueOf(args[2]);
 
