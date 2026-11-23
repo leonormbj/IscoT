@@ -11,7 +11,7 @@ private final Type type; //tipo de registo
 
     public RegistrationEvent(Areas area, Type type) {
         super(area); //chama o construtor da superclasse Event. LocalDateTime é automaticamente atribuido na superclasse neste momento, 
-        // não é necessário passar como argumento.
+        //não é necessário passar como argumento.
         this.type = type; //guarda o tipo
     }
 
