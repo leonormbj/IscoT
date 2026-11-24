@@ -24,7 +24,7 @@ public static void main(String[]args) {
    try(ServerSocket servidor = new ServerSocket(porto)){//abre um porto de escuta no servidor e fica a espera de ligacoes
     System.out.println("à espera de clientes no porto" + porto);
 
-    while(true){ //ciclo infinito que permite estar à espera de clientes sem fechar após o primeiro cliente
+    while(true){ //ciclo infinito que permite estar à  espera de clientes sem fechar após o primeiro cliente
 
         Socket cliente = servidor.accept(); //fica a espera que um cliente se ligue nesse porto(accept)
                                               //qd o cliente liga, o servidor devolve um socket(representa a ligacao) e fica guardado em cliente

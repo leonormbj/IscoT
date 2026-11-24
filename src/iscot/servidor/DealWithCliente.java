@@ -11,7 +11,7 @@ public class DealWithCliente extends Thread{
 
     private Socket cliente;
     
-    public void dealWithCliente(Socket cliente){
+    public DealWithCliente(Socket cliente){
         this.cliente = cliente;
     }
 
@@ -43,7 +43,7 @@ public class DealWithCliente extends Thread{
             }
             finally { //finnaly executa quando a thread termina mm que tenha havido erro
                 try {
-                    cliente.close(); //fecha se o socket
+                    cliente.close(); //fecha se a ligação deste cliente
                 }catch(IOException e){
                     System.err.println("erro ao fechar ligação" + e.getMessage());
                 }

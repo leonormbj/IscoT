@@ -2,6 +2,7 @@ package iscot.client;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.swing.JFrame;
@@ -9,8 +10,10 @@ import javax.swing.JPanel;
 
 import iscot.client.gui.SensorControl;
 import iscot.enums.Areas;
+import iscot.enums.Type;
 import iscot.events.Event;
 import iscot.events.LightSensorEvent;
+import iscot.events.RegistrationEvent;
 
 public class LightSensor {
 
@@ -19,25 +22,32 @@ public class LightSensor {
             System.err.println("Invalid arguments!");
         } else {
             int porto;
+            Areas area = Areas.valueOf(args[2]);
             
             try{
-                porto = Integer.parseInt(args[1]);
+                porto = Integer.parseInt(args[1]); //tem de ser o porto do servidor certo???????????????
             }catch (NumberFormatException e){
                 System.err.println("Porto tem de ser um numero");   
                 return;
             }
 
-            try{
-              try {
-              Socket socket = new Socket(args[0], porto);
-              System.out.println("Ligado ao servidor : " + socket.getRemoteSocketAddress()); 
-            }catch(IOException e){
-                System.err.println("Nao foi possivel ligar ao servidor " + e.getMessage());
-                return;
-            }
+            try{//pedido de registo do cliente no servidor 
+        
+              Socket socket = new Socket(args[0], porto); //atraves deste socket que o sensor obtém o canal parta enviar e receber inf
+              
+              //tunel de saida dos dados (aqui estamos só a abrir o tunel para os dados poderem sair????????????????)
+              ObjectOutputStream saida = new ObjectOutputStream(socket.getOutputStream()); 
 
-            // TODO register with the server
-            Areas area = Areas.valueOf(args[2]);
+              RegistrationEvent registo = new RegistrationEvent(area, Type.SENSOR);
+
+              saida.writeObject(registo); //pq fazemos write se ja fazemos getoutputstream?????????????????????
+              saida.flush();
+
+              System.out.println("pedido de registo enviado" + registo);
+            }catch(IOException e){
+                System.err.println("nao foi possivel enviar registo" + e.getMessage());
+                return;
+        }
 
             JFrame janela = new JFrame("Luz em " + area);
             janela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,6 +68,7 @@ public class LightSensor {
             janela.setLocation(600, 400);
             janela.pack();
             janela.setVisible(true);
-        }
+        
     }
+}
 }

@@ -1,6 +1,9 @@
 package iscot.client;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.JFrame;
@@ -11,8 +14,10 @@ import javax.swing.SwingUtilities;
 
 import iscot.client.gui.LightIcon;
 import iscot.enums.Areas;
+import iscot.enums.Type;
 import iscot.events.AreaLightingOrderEvent;
 import iscot.events.Event;
+import iscot.events.RegistrationEvent;
 
 public class LightActuator {
 
@@ -56,10 +61,29 @@ public class LightActuator {
         if (args.length != 3) {
             System.err.println("Invalid arguments!");
         } else {
-            // TODO connect to the server
-            // TODO register with the server
+            int porto;
             Areas area = Areas.valueOf(args[2]);
 
+            try{
+                porto = Integer.parseInt(args[1]);
+            }catch(NumberFormatException e){
+                System.err.println("o porto tem de ser um numero");
+            }
+
+            try{
+                Socket socket = new Socket(args[0], porto);
+
+                ObjectOutputStream saida = new ObjectOutputStream(socket.getOutputStream());
+
+                RegistrationEvent registo = new RegistrationEvent(area, Type.ACTUATOR);
+
+                saida.writeObject(registo);
+                saida.flush();
+
+                System.out.println("pedido de registo enviado" + registo);
+            }catch(IOException e){
+                System.err.println("nao foi possivel enviar registo" + e.getMessage());
+            }
             LightActuator atuador = new LightActuator(area);
 
             //lampada liga em 2 segundos e desliga em 3 segundos
