@@ -25,7 +25,7 @@ public class LightSensor {
             Areas area = Areas.valueOf(args[2]);
             
             try{
-                porto = Integer.parseInt(args[1]); //tem de ser o porto do servidor certo???????????????
+                porto = Integer.parseInt(args[1]); 
             }catch (NumberFormatException e){
                 System.err.println("Porto tem de ser um numero");   
                 return;
@@ -35,12 +35,12 @@ public class LightSensor {
         
               Socket socket = new Socket(args[0], porto); //atraves deste socket que o sensor obtém o canal parta enviar e receber inf
               
-              //tunel de saida dos dados (aqui estamos só a abrir o tunel para os dados poderem sair????????????????)
-              ObjectOutputStream saida = new ObjectOutputStream(socket.getOutputStream()); 
+              //objectoutputStream define que são objetos que vão sair do canal
+              ObjectOutputStream saida = new ObjectOutputStream(socket.getOutputStream()); //getoutputStream vai buscar a ligação 
 
               RegistrationEvent registo = new RegistrationEvent(area, Type.SENSOR);
 
-              saida.writeObject(registo); //pq fazemos write se ja fazemos getoutputstream?????????????????????
+              saida.writeObject(registo); //manda os dados para a ligação
               saida.flush();
 
               System.out.println("pedido de registo enviado" + registo);

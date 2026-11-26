@@ -17,10 +17,10 @@ public class DealWithCliente extends Thread{
 
     public void run(){
         
-        try{
-            ObjectInputStream ligacao = new ObjectInputStream(cliente.getInputStream()); //recontroi se os dados da ligacao(que sao acedidos pelo getinputstream) em objetos java
+        try{ //vao se receber dados do tipo objeto
+            ObjectInputStream ligacao = new ObjectInputStream(cliente.getInputStream()); //vai buscar a ligação onde se vai receber
             
-            while(true){ //ciclo permite receber varios cliente para um unico socket 
+            while(true){ //ciclo permite receber varias mensagens/eventos do 
                 Object recebido = ligacao.readObject(); //o read.object espera por um objeto do cliente
                                                         //fica tipo object pq antes de verificarmos n sabemos que tipo é
                 if( recebido instanceof RegistrationEvent){
